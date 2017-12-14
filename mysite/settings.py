@@ -25,7 +25,7 @@ SECRET_KEY = '9yn!n_zha-mvnj)6g==d5ufnlpkv2s_#t0=+^f75yhvgdf^(t7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'felipelannes.pythonanywhere.com']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'weightsheet',
+
 ]
 
 MIDDLEWARE_CLASSES = [
