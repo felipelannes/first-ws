@@ -1,0 +1,27 @@
+
+<html>
+    <head>
+        <title>ASV Item List</title>
+    </head>
+    <body>
+        <div>
+            <h1><a>ASV Item List</a></h1>
+        </div>
+        {% for item in gs_item %}
+            <div>
+                <h2><a>{{item.Part_Name}}</a></h2>
+                <p>ID Item: {{item.ID_Item}}<br>
+                ASV Item: {{item.ASV_Item}}<br>
+                Local Group System: {{item.Local_Group}}<br>
+                Global Group System: {{item.Global_Group}}<br>
+                Description: {{item.Description}}<br>
+                Mass: {{item.Mass}} kilograms<br>
+                LCG: {{item.LCG}} meters<br>
+                TCG: {{item.TCG}} meters<br>
+                VCG: {{item.VCG}} meters</p>
+            </div>
+        {% endfor %}
+
+    </body>
+</html>
+
