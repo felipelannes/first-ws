@@ -1,6 +1,56 @@
+{% load range %}
+
+
 <html>
     <head>
         <title>ASV Workbench | WeightSheet Module</title>
     </head>
     <body>
-    	<div><h1> Group System Items</h1></div>
+
+        <div><h1> {{vessel.ID_ASV_Vessel}} Group System Informations</h1></div>
+
+        <div><h3>Upload a Group System File: </h3></div>
+        <form action="{% url "weightsheet:upload_csv" %}" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="col-md-8">
+                <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+            </div>                    
+        </div>
+        <div class="form-group">                    
+            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:30px;">
+                 <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:10px;"></span>Upload </button>
+            </div> 
+        </div>
+        </form>
+
+        <div><h3>Bounding Box: </h3></div>
+
+        <form method="POST" class="post-form">{% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+
+        <div>
+                <p>Bounding Box Mass: {{bounding_box_date.0|floatformat:3 }} kilograms<br>
+                    Bounding Box LCG: {{bounding_box_date.1|floatformat:3}} meters<br>
+                    Bounding Box TCG: {{bounding_box_date.2|floatformat:3}} meters<br>
+                    Bounding Box VCG: {{bounding_box_date.3|floatformat:3}} meters<br></p>
+        </div>
+
+
+        </div>
+        {% for gs in gs_list %}
+            <div>
+                <h2><a href="{% url "weightsheet:gs" ID_ASV_Vessel=vessel.ID_ASV_Vessel gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
+                <div>
+                <p>Mass: {{gs.Mass|floatformat:3 }} <br>
+                    LCG: {{gs.LCG|floatformat:3}} <br>
+                    TCG: {{gs.TCG|floatformat:3}} <br>
+                    VCG: {{gs.VCG|floatformat:3}} <br></p>
+                </div>
+            </div>
+        {% endfor %}
+        </>
+    </body>
+</html>

@@ -1,13 +1,11 @@
-
 <html>
     <head>
-        <title>ASV Item List</title>
+        <title>ASV Workbench | WeightSheet Module</title>
     </head>
     <body>
-        <div>
-            <h1><a>ASV Item List</a></h1>
-        </div>
-        {% for item in gs_item %}
+    	<div><h1> Group System {{gs}}</h1></div>
+
+        {% for item in gs_choose %}
             <div>
                 <h2><a>{{item.Part_Name}}</a></h2>
                 <p>ID Item: {{item.ID_Item}}<br>
@@ -15,7 +13,7 @@
                 Local Group System: {{item.Local_Group}}<br>
                 Global Group System: {{item.Global_Group}}<br>
                 Description: {{item.Description}}<br>
-                Quantity: {{item.Quantity|floatformat:3 }} <br>
+                Quantity: {{item.Quantity|floatformat:3}}<br>
                 Mass: {{item.Mass|floatformat:3}} kilograms<br>
                 LCG: {{item.LCG|floatformat:3}} meters<br>
                 TCG: {{item.TCG|floatformat:3}} meters<br>
@@ -23,7 +21,5 @@
                 ASV Project: {{item.ID_ASV.ID_ASV_Vessel}}</p>
             </div>
         {% endfor %}
-
     </body>
 </html>
-
