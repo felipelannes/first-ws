@@ -1,17 +1,25 @@
+{% load staticfiles %}
+
 <html>
     <head>
         <title>ASV Workbench | WeightSheet Module</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
     </head>
     <body>
-    	<div><h1> ASV Workbench | WeightSheet Module </h1></div>
-        <div>
-            <h3><a>The weightsheet is used to recording all items that compose or will cbe contained in a vessel. This way, designers can
-            	can check whether weight and centre of gravity (CoG) of the vesse are in accordance with desired values. 
-            </a></h3>
+        <div class="page-header">
+            <h1> ASV Workbench | WeightSheet Module </h1>
         </div>
-        <div>
-        	<h2><a href="{% url "weightsheet:vessel_add" %}">Create a new project</a></h2>
-			<h2><a href="{% url "weightsheet:vessel_list" %}">Find project</a></h2>
+        <div class="choose" >
+            <h4>The weightsheet is used to recording all items that compose or will be contained in a vessel. This way, designers
+                can check whether weight and center of gravity (CoG) of the vessel are in accordance with desired values.
+            </h4>
+        </div>
+        <div class="choose" >
+            <h2><a href="{% url "weightsheet:vessel_add" %}">Create a new project</a></h2>
+            <h2><a href="{% url "weightsheet:vessel_list" %}">Find project</a></h2>
         </div>
 
         <div>

@@ -1,12 +1,21 @@
+{% load staticfiles %}
+
+
 <html>
     <head>
-        <title>ASV Workbench | WeightSheet Module</title>
+        <title>ASV {{vessel.ID_ASV_Vessel}} Item List</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
     </head>
     <body>
-    	<div><h1> Group System {{gs}}</h1></div>
+        <div class="page-header">
+            <h1> {{vessel.ID_ASV_Vessel}} Group System {{gs}}</h1>
+        </div>
 
         {% for item in gs_choose %}
-            <div>
+            <div class="vessel">
                 <h2><a>{{item.Part_Name}}</a></h2>
                 <p>ID Item: {{item.ID_Item}}<br>
                 ASV Item: {{item.ASV_Item}}<br>

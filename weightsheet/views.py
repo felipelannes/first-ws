@@ -17,12 +17,12 @@ def vessel_add(request):
     if request.method == 'POST':
         form = ASV_Vessel_Form(request.POST)
         if form.is_valid():
-            if ASV_Vessel.objects.filter(ID_ASV_Vessel=request.POST['ID_ASV_Vessel']):
+            if ASV_Vessel.objects.filter(ID_ASV_Vessel=request.POST.get('ID_ASV_Vessel')):
                 print ('Error: Project already exist')
             else:
                 form.save()
-        ID_ASV_Vessel=request.POST['ID_ASV_Vessel']
-        return gs_add(request,ID_ASV_Vessel)
+        #ID_ASV_Vessel=request.POST['ID_ASV_Vessel']
+        return redirect('/vessel/list')
     form = ASV_Vessel_Form()
     return render(request, 'weightsheet/vessel_add.html', {'form': form} )
 
@@ -71,7 +71,7 @@ def gs_add(request,ID_ASV_Vessel):
             form = Bounding_Box_Form(request.POST)
             if form.is_valid():
                 pass
-            for item in Item.objects.all():
+            for item in Item.objects.filter(ID_ASV=vessel_iterable):
                 if float(request.POST.get('X_aft'))<=item.LCG<=float(request.POST.get('X_forward')) \
                 and float(request.POST.get('Y_starboard'))<=item.TCG<=float(request.POST.get('Y_portside')) \
                 and float(request.POST.get('Z_bottom'))<=item.VCG<=float(request.POST.get('Z_up')):
@@ -146,7 +146,7 @@ def upload_csv(request):
                 form.save()
         else:
             pass
-    return HttpResponseRedirect('/vessel/list')
+    return redirect('/vessel/list')
 
 
 
