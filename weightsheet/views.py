@@ -142,16 +142,22 @@ def upload_csv(request,ASV_Project_Number):
         data_dict["LCG"] = fields[8]
         data_dict["TCG"] = fields[9]
         data_dict["VCG"] = fields[10]
-        form = Item_Form(data_dict)
-        if form.is_valid():
-            if Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2]):
+        if Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2]):
                 item = get_object_or_404(Item,ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2])
-                #gs_choose=Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_item)
+                print (item, 'passei')
+                item.Description = fields[5]
+                item.Quantity = fields[6]
+                item.Mass = fields[7]
+                item.LCG = fields[8]
+                item.TCG = fields[9]
+                item.VCG = fields[10]
                 item.save()
-            else:
-                form.save()
         else:
-            pass
+            form = Item_Form(data_dict)
+            if form.is_valid():
+                form.save()
+            else:
+                pass
     gs_add(request,ASV_Project_Number)
     vessel_list(request)
     return redirect('/vessel/list')
