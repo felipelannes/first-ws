@@ -16,7 +16,7 @@
         </div>
         {% for vessel in vessel_list %}
             <div class="vessel">
-                <h2><a href="{% url "weightsheet:gs_add" ID_ASV_Vessel=vessel.ID_ASV_Vessel %}">{{vessel.ID_ASV_Vessel}} - {{vessel.Name}}</a></h2>
+                <h2><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">{{vessel.ASV_Project_Number}} - {{vessel.Name}}</a></h2>
                 <p>Description: {{vessel.Description}} <br>
                     Mass: {{vessel.Mass|floatformat:3 }} kilograms<br>
                     LCG: {{vessel.LCG|floatformat:3 }} meters<br>

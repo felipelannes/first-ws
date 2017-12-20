@@ -4,6 +4,7 @@ from .forms import ASV_Vessel_Form, Group_System_Form, Item_Form, Bounding_Box_F
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.db.models import Sum
 from .solvers import calculate_total_mass, calculate_LCG_CoG, calculate_TCG_CoG, calculate_VCG_CoG, get_data
 
@@ -17,13 +18,13 @@ def vessel_add(request):
     if request.method == 'POST':
         form = ASV_Vessel_Form(request.POST)
         if form.is_valid():
-            if ASV_Vessel.objects.filter(ID_ASV_Vessel=request.POST.get('ID_ASV_Vessel')):
+            if ASV_Vessel.objects.filter(ASV_Project_Number=request.POST.get('ASV_Project_Number')):
                 print ('Error: Project already exist')
             else:
                 form.save()
-        #ID_ASV_Vessel=request.POST['ID_ASV_Vessel']
         return redirect('/vessel/list')
-    form = ASV_Vessel_Form()
+    else:
+        form = ASV_Vessel_Form()
     return render(request, 'weightsheet/vessel_add.html', {'form': form} )
 
 
@@ -38,9 +39,9 @@ def vessel_list(request):
     return render(request, 'weightsheet/vessel_list.html', {'vessel_list': vessel_list} )
 
 
-def gs_add(request,ID_ASV_Vessel):
-    vessel = get_object_or_404(ASV_Vessel, ID_ASV_Vessel=ID_ASV_Vessel)
-    vessel_iterable = ASV_Vessel.objects.filter(ID_ASV_Vessel=ID_ASV_Vessel)
+def gs_add(request,ASV_Project_Number):
+    vessel = get_object_or_404(ASV_Vessel, ASV_Project_Number=ASV_Project_Number)
+    vessel_iterable = ASV_Vessel.objects.filter(ASV_Project_Number=ASV_Project_Number)
     gs_item=Group_System()
     for gs_id in range(100,800,100):
         data_dict={}
@@ -67,7 +68,9 @@ def gs_add(request,ID_ASV_Vessel):
     form = Bounding_Box_Form()
     item_choose=[]
     try:
-        if request.method == 'POST':
+        if request.method == 'GET':
+            pass
+        elif request.method == 'POST':
             form = Bounding_Box_Form(request.POST)
             if form.is_valid():
                 pass
@@ -90,36 +93,35 @@ def gs_item(request):
     gs_item = Item.objects.all()
     return render(request, 'weightsheet/gs_item.html', {'gs_item': gs_item} )
 
-def gs(request,ID_ASV_Vessel,gs):
-    vessel=get_object_or_404(ASV_Vessel, ID_ASV_Vessel=ID_ASV_Vessel)
+def gs(request,ASV_Project_Number,gs):
+    vessel=get_object_or_404(ASV_Vessel, ASV_Project_Number=ASV_Project_Number)
     gs_choose=Item.objects.filter(ID_ASV_id=vessel, Local_Group=gs)
     
     return render(request, 'weightsheet/gs.html', 
         {'gs_choose': gs_choose, 'gs': gs, 'vessel': vessel} )
 
-#def bounding_box(request):
-    
-    #return (form)
  
-def upload_csv(request):
+def upload_csv(request,ASV_Project_Number):
     data = {}
+    #ASV_Project_Number=None
     if "GET" == request.method:
-        return render(request, "weightsheet/upload_csv.html", data)
+        return redirect('/vessel/list')
     # if not GET, then proceed
     
     csv_file = request.FILES["csv_file"]
-    if not csv_file.name.endswith('.csv'):
-    	pass
     #if file is too large, return
     if csv_file.multiple_chunks():
     	pass
 
+    if  ASV_Project_Number!=csv_file.name.split('/')[-1].split('-')[1]:
+        return render(request, 'weightsheet/upload_error.html', {'ASV_Project_Number': ASV_Project_Number} )
+
     lines = get_data(csv_file)
 
     #loop over the lines and save them in db. If error , store as string and then display
-    for line in lines: 
-        fields = line
-        vessel_iterable = ASV_Vessel.objects.filter(ID_ASV_Vessel=fields[11])
+    for fields in lines: 
+        #ASV_Project_Number=fields[11]
+        vessel_iterable = ASV_Vessel.objects.filter(ASV_Project_Number=fields[11])
         gs_iterable = Group_System.objects.filter(ID_GS=fields[2] , ID_ASV_id=vessel_iterable)
 
         data_dict = {}
@@ -146,6 +148,8 @@ def upload_csv(request):
                 form.save()
         else:
             pass
+    gs_add(request,ASV_Project_Number)
+    vessel_list(request)
     return redirect('/vessel/list')
 
 

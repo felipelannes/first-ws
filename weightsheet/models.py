@@ -6,7 +6,7 @@ class ASV_Vessel(models.Model):
 
     #Relations
     #Attributes - Mandatory
-    ID_ASV_Vessel = models.CharField(max_length=4)
+    ASV_Project_Number = models.CharField(max_length=4)
     Name = models.CharField(max_length=200)
     Description = models.TextField(blank=True)
     Mass = models.FloatField(null=True)
@@ -84,10 +84,20 @@ class Item(models.Model):
     #Meta and String
 
 class Bounding_Box(models.Model):
-    
+
+    #Attributes - Mandatory    
     X_aft = models.FloatField()
     X_forward = models.FloatField()
     Y_starboard = models.FloatField()
     Y_portside = models.FloatField()
     Z_bottom = models.FloatField()
     Z_up = models.FloatField()
+
+    #Attributes - Optional
+    #Object Manager
+    #Custom Propreties
+
+    #Methods
+
+
+    #Meta and String

@@ -1,20 +1,24 @@
 {% load staticfiles %}
 
+
+
 <html>
     <head>
-        <title> ASV Add Vessel</title>
+        <title>ASV {{ASV_Project_Number}} Upload Error</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
     </head>
     <body>
-        <div class="page-header">
-            <h1>ASV New Vessel</h1>
+    	<div class="page-header">
+            <h1><a>ASV {{ASV_Project_Number}} Upload Error</a></h1>
         </div>
-        <form method="POST" class="post-form"  style="margin-left:40px; ">{% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit"  class="btn btn-primary" ><span  style="margin-right:10px;"></span>Save</button>
-        </form>
+        <div class="vessel">
+        	<h3> Unexpected upload file name. <br><br> 
+        		It must be like: ASV-{{ASV_Project_Number}}-S-110-i0011 <br></h3>
+        	<h3><a href="{% url "weightsheet:gs_add" ASV_Project_Number=ASV_Project_Number %}">Try again </h3>
+        </div>
     </body>
 </html>
+

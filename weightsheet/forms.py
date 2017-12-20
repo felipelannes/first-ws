@@ -2,16 +2,18 @@ from django import forms
 from .models import ASV_Vessel, Group_System, Item, Bounding_Box
 
 class ASV_Vessel_Form(forms.ModelForm):
-#	ID_ASV_Vessel = forms.CharField(max_length=4)
+#	ASV_Project_Number = forms.CharField(max_length=4)
 	Description = forms.CharField(widget=forms.Textarea,required=False)
 	#Mass = forms.FloatField(required=False)
 	#LCG = forms.FloatField(required=False)
 	#TCG = forms.FloatField(required=False)
 	#VCG = forms.FloatField(required=False)
 
+	
 	class Meta:
 		model = ASV_Vessel
-		fields = ('ID_ASV_Vessel', 'Name', 'Description')
+		fields = ('ASV_Project_Number', 'Name', 'Description')
+
 
 class Group_System_Form(forms.ModelForm):
 
@@ -38,3 +40,4 @@ class Bounding_Box_Form(forms.ModelForm):
 	class Meta:
 		model = Bounding_Box
 		fields = ('X_aft', 'X_forward', 'Y_starboard', 'Y_portside', 'Z_bottom', 'Z_up')
+		localized_fields = ('__all__')

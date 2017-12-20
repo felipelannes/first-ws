@@ -5,17 +5,17 @@
 
 <html>
     <head>
-        <title>ASV {{vessel.ID_ASV_Vessel}} Vessel</title>
+        <title>ASV {{vessel.ASV_Project_Number}} Vessel</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
     </head>
     <body>
-        <div class="page-header"><h1> {{vessel.ID_ASV_Vessel}} Group System Informations</h1></div>
+        <div class="page-header"><h1> {{vessel.ASV_Project_Number}} Group System Informations</h1></div>
 
         <div style="margin-left:40px;"><h3>Upload a Group System File: </h3></div>
-        <form action="{% url "weightsheet:upload_csv" %}" method="POST" enctype="multipart/form-data" class="form-inline"> 
+        <form action="{% url "weightsheet:upload_csv"  ASV_Project_Number=vessel.ASV_Project_Number %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
         {% csrf_token %}
         <div class="form-group" style="margin-left:40px;">
             <div class="col-md-8">
@@ -31,17 +31,21 @@
 
         <div class="group_system">
             <h3>Bounding Box: </h3>
+            <p> <b>Reference: X + to forward, Y + to portside, Z + up </b></p>
         </div>
 
         <form method="POST" class="post-form" style="margin-left:40px;">{% csrf_token %}
-                            {{ form.as_p }}
-                            <div style="margin-left:0px;"> 
-                                <button type="submit" class="save btn btn-default" >Save</button>
-                            </div>
+            {% for field in form %}
+                {{field.errors}}
+                {{field.label_tag}} {{field}} meters <br><br>
+            {% endfor %}
+
+            <button type="submit"  class="btn btn-primary" ><span  style="margin-right:10px;"></span>Calculate</button>
                             
         </form>
 
         <div class="group_system">
+
                 <p>Bounding Box Mass: {{bounding_box_date.0|floatformat:3 }} kilograms<br>
                     Bounding Box LCG: {{bounding_box_date.1|floatformat:3}} meters<br>
                     Bounding Box TCG: {{bounding_box_date.2|floatformat:3}} meters<br>
@@ -52,12 +56,12 @@
         </div>
         {% for gs in gs_list %}
             <div class="vessel">
-                <h2><a href="{% url "weightsheet:gs" ID_ASV_Vessel=vessel.ID_ASV_Vessel gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
+                <h2><a href="{% url "weightsheet:gs" ASV_Project_Number=vessel.ASV_Project_Number gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
                 <div>
-                <p>Mass: {{gs.Mass|floatformat:3 }} <br>
-                    LCG: {{gs.LCG|floatformat:3}} <br>
-                    TCG: {{gs.TCG|floatformat:3}} <br>
-                    VCG: {{gs.VCG|floatformat:3}} <br></p>
+                <p>Mass: {{gs.Mass|floatformat:3 }} kilograms <br>
+                    LCG: {{gs.LCG|floatformat:3}} meters <br>
+                    TCG: {{gs.TCG|floatformat:3}} meters <br>
+                    VCG: {{gs.VCG|floatformat:3}} meters <br></p>
                 </div>
             </div>
         {% endfor %}
