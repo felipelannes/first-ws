@@ -15,8 +15,12 @@
             <h1><a>ASV {{ASV_Project_Number}} Upload Error</a></h1>
         </div>
         <div class="vessel">
-        	<h3> Unexpected upload file name. <br><br> 
-        		It must be like: ASV-{{ASV_Project_Number}}-S-110-i0011 <br></h3>
+        		{% if choice %}
+        		<h3> Unexpected upload file name. <br><br> 
+        		It must be like: ASV-{{ASV_Project_Number}}-S-110-i0011 BOM.xls <br></h3>
+        		{% else %}
+        		<h3> Unexpected Excel file line. </h3>
+        		{% endif %}
         	<h3><a href="{% url "weightsheet:gs_add" ASV_Project_Number=ASV_Project_Number %}">Try again </h3>
         </div>
     </body>

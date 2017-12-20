@@ -114,9 +114,13 @@ def upload_csv(request,ASV_Project_Number):
     	pass
 
     if  ASV_Project_Number!=csv_file.name.split('/')[-1].split('-')[1]:
-        return render(request, 'weightsheet/upload_error.html', {'ASV_Project_Number': ASV_Project_Number} )
+        return render(request, 'weightsheet/upload_error.html', {'ASV_Project_Number': ASV_Project_Number, 'choice': True} )
 
-    lines = get_data(csv_file)
+    try:
+        lines = get_data(csv_file)
+    except:
+        return render(request, 'weightsheet/upload_error.html', {'ASV_Project_Number': ASV_Project_Number, 'choice': False} )
+
 
     #loop over the lines and save them in db. If error , store as string and then display
     for fields in lines: 
