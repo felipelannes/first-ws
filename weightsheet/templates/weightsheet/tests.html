@@ -1,0 +1,12 @@
+ <form method="POST" action="{% url "weightsheet:bounding_box" %}" style="margin-left:40px;">
+        {% csrf_token %}
+
+        X Aft: <input type="number" name="X_aft"> meters <br><br>
+        X Forward: <input type="number" name="X_forward"> meters <br><br>
+        Y Starboard: <input type="number" name="Y_starboard">meters <br><br>
+        Y Portside: <input type="number" name="Y_portside">meters <br><br>
+        Z Up: <input type="number" name="Z_up">meters <br><br>
+        Z Bottom: <input type="number" name="Z_bottom">meters <br><br>
+
+        <button type="submit"  class="btn btn-primary" ><span  style="margin-right:10px;"></span>Calculate</button>
+        </form>

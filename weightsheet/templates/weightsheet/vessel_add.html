@@ -12,9 +12,20 @@
         <div class="page-header">
             <h1>ASV New Vessel</h1>
         </div>
-        <form method="POST" class="post-form"  style="margin-left:40px; ">{% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit"  class="btn btn-primary" ><span  style="margin-right:10px;"></span>Save</button>
+        <form method="POST" class="post-form"  style="margin-left:40px;">{% csrf_token %}
+            {% for field in form %}
+                <div class="row">
+                    <div class="col">
+                        <div style="margin-left:-20px;"> {{field.errors}}</div>
+                        {{field.label_tag}}
+                    </div>
+                    <div class="col">
+                        {{field}}  <br><br>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <button type="submit"  class="btn btn-primary" >Create</button>
         </form>
     </body>
 </html>

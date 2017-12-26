@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^vessel/list/', views.vessel_list, name='vessel_list'),
     url(r'^vessel/(?P<ASV_Project_Number>.+)/$', views.gs_add, name='gs_add'),
     url(r'^vessel/(?P<ASV_Project_Number>.+)/(?P<gs>\d+)', views.gs, name='gs'),
-    url(r'^upload/(?P<ASV_Project_Number>.+)/', views.upload_csv, name='upload_csv'),
+    url(r'^vessel/(?P<ASV_Project_Number>.+)/remove', views.vessel_remove, name='vessel_remove'),
+    url(r'^upload/(?P<ASV_Project_Number>.+)/', views.upload, name='upload'),
 ]

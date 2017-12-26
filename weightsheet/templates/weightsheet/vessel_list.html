@@ -1,7 +1,6 @@
 {% load staticfiles %}
 
 
-
 <html>
     <head>
         <title>ASV Vessel List</title>
@@ -15,17 +14,30 @@
             <h1><a>ASV Vessel List</a></h1>
         </div>
         {% for vessel in vessel_list %}
+        <div class="container-fluid">
             <div class="vessel">
-                <h2><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">{{vessel.ASV_Project_Number}} - {{vessel.Name}}</a></h2>
-                <p>Description: {{vessel.Description}} <br>
-                    Mass: {{vessel.Mass|floatformat:3 }} kilograms<br>
-                    LCG: {{vessel.LCG|floatformat:3 }} meters<br>
-                    TCG: {{vessel.TCG|floatformat:3 }} meters<br>
-                    VCG: {{vessel.VCG|floatformat:3 }} meters<br></p>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h2><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">
+                                
+                            {{vessel.ASV_Project_Number}} - {{vessel.Name}} </a></h2>
+
+                            <p>Description: {{vessel.Description}} <br>
+                            Mass: {{vessel.Mass|floatformat:3 }} kilograms<br>
+                            LCG: {{vessel.LCG|floatformat:3 }} meters<br>
+                            TCG: {{vessel.TCG|floatformat:3 }} meters<br>
+                            VCG: {{vessel.VCG|floatformat:3 }} meters</p>
+                        </div>
+                    
+                        <div class="col-sm-4" >
+                            <a class="btn btn-default" href="{% url "weightsheet:vessel_remove" ASV_Project_Number=vessel.ASV_Project_Number %}"><span class="glyphicon glyphicon-remove" ></span></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
 
+        {% endfor %}
     </body>
 </html>
 
