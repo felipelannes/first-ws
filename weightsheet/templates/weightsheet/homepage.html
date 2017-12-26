@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="page-header">
-            <h1> ASV Workbench | WeightSheet Module </h1>
+            <h1> <a href="{% url "weightsheet:homepage" %}"> ASV Workbench | WeightSheet Module </a></h1>
         </div>
         <div class="choose" >
             <h4>The weightsheet is used to recording all items that compose or will be contained in a vessel. This way, designers
@@ -19,7 +19,7 @@
         </div>
         <div class="choose" >
             <h2><a href="{% url "weightsheet:vessel_add" %}">Create a new project</a></h2>
-            <h2><a href="{% url "weightsheet:vessel_list" %}">Find project</a></h2>
+            <h2><a href="{% url "weightsheet:vessel_list" %}">Find a project</a></h2>
         </div>
 
         <div>

@@ -18,11 +18,16 @@ def vessel_add(request):
                 return render(request, 'weightsheet/create_project_error.html', {'ASV_Project_Number': request.POST.get('ASV_Project_Number')} )
             else:
                 form.save()
-                return gs_add(request,request.POST.get('ASV_Project_Number'))
+                html = "/vessel/%s"%(request.POST.get('ASV_Project_Number'))
+                return redirect(html)
     else:
         form = ASV_Vessel_Form()
     return render(request, 'weightsheet/vessel_add.html', {'form': form} )
 
+def vessel_remove(request,ASV_Project_Number):
+    vessel = get_object_or_404(ASV_Vessel,ASV_Project_Number=ASV_Project_Number)
+    vessel.delete()
+    return redirect ('/vessel/list')
 
 def vessel_list(request):
     vessel_list = ASV_Vessel.objects.all()
@@ -33,11 +38,6 @@ def vessel_list(request):
         vessel.TCG=calculate_TCG_CoG(items_list)
         vessel.VCG=calculate_VCG_CoG(items_list)
     return render(request, 'weightsheet/vessel_list.html', {'vessel_list': vessel_list} )
-
-def vessel_remove(request,ASV_Project_Number):
-    vessel = get_object_or_404(ASV_Vessel,ASV_Project_Number=ASV_Project_Number)
-    vessel.delete()
-    return redirect ('/vessel/list')
 
 
 def gs_add(request,ASV_Project_Number):
@@ -92,18 +92,17 @@ def gs_add(request,ASV_Project_Number):
 
     return render(request, 'weightsheet/gs_add.html', {'vessel': vessel, 'gs_list': gs_list, 'form': form, 'bounding_box_date': bounding_box_date} )
 
-def gs_item(request):
-    gs_item = Item.objects.all()
-    return render(request, 'weightsheet/gs_item.html', {'gs_item': gs_item} )
-
-def gs(request,ASV_Project_Number,gs):
+def gs_items(request,ASV_Project_Number,gs):
     vessel=get_object_or_404(ASV_Vessel, ASV_Project_Number=ASV_Project_Number)
     gs_choose=Item.objects.filter(ID_ASV_id=vessel, Local_Group=gs)
     
-    return render(request, 'weightsheet/gs.html', 
+    return render(request, 'weightsheet/gs_items.html', 
         {'gs_choose': gs_choose, 'gs': gs, 'vessel': vessel} )
 
- 
+def all_items(request):
+    all_items = Item.objects.all()
+    return render(request, 'weightsheet/all_items.html', {'all_items': all_items} )
+
 def upload(request,ASV_Project_Number):
     data = {}
     #ASV_Project_Number=None

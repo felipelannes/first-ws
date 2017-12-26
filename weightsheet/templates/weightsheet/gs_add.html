@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <div class="page-header"><h1> {{vessel.ASV_Project_Number}} Group System Informations</h1></div>
+        <div  class="page-header"><h1 ><a href="{% url "weightsheet:homepage" %}"> {{vessel.ASV_Project_Number}} Group System Informations</a></h1></div>
 
         <div style="margin-left:40px;"><h3>Upload a Group System File: </h3></div>
         <form action="{% url "weightsheet:upload"  ASV_Project_Number=vessel.ASV_Project_Number %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
@@ -36,13 +36,13 @@
         <form method="POST" class="post-form" style="margin-left:40px;">{% csrf_token %}
             {% for field in form %}
             <div class="row">
-                    <div class="col-md-2">
-                        {{field.errors}}
+                    <div class="col-md-3">
                         {{field.label_tag}} 
                     </div>
                     <div class="col-md-3">
                         {{field}} meters <br><br>
                     </div>
+                        {{field.errors}}
             </div>
             {% endfor %}
 
@@ -60,7 +60,7 @@
         </div>
         {% for gs in gs_list %}
             <div class="vessel">
-                <h2><a href="{% url "weightsheet:gs" ASV_Project_Number=vessel.ASV_Project_Number gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
+                <h2><a href="{% url "weightsheet:gs_items" ASV_Project_Number=vessel.ASV_Project_Number gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
                 <div>
                 <p>Mass: {{gs.Mass|floatformat:3 }} kilograms <br>
                     LCG: {{gs.LCG|floatformat:3}} meters <br>
