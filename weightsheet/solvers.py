@@ -60,19 +60,20 @@ def get_data(data):
 	        	pass
 	        else:
 	            PartName = Part_Name[i].split('-')
+	            
 	            if PartName[0]=='ASV':
-	                line += [[str(ID)]+[PartName[0]]+[int(data.name.split('-')[3])]+\
-	                        [int(PartName[3])]+[Part_Name[i]]+[Description[i]]+\
-	                        [Quantity[i]]+[Mass[i]]+\
-	                        [LCG[i]]+[TCG[i]]+\
-	                        [VCG[i]]+[data.name.split('-')[1]]]
+	            		line += [[str(ID)]+[PartName[0]]+[int(data.name.split('-')[3])]+\
+		                        [int(PartName[3])]+[Part_Name[i]]+[Description[i]]+\
+		                        [Quantity[i]]+[Mass[i]]+\
+		                        [LCG[i]]+[TCG[i]]+\
+		                        [VCG[i]]+[data.name.split('-')[1]]]
 	            else:
-	                line += [[str(ID)]+[PartName[0]]+[int(data.name.split('-')[3])]+\
-	                        [int(PartName[1])]+[Part_Name[i]]+[Description[i]]+\
-	                        [Quantity[i]]+[Mass[i]]+\
-	                        [LCG[i]]+[TCG[i]]+\
-	                        [VCG[i]]+[data.name.split('-')[1]]]
-
+	            		line += [[str(ID)]+[PartName[0]]+[int(data.name.split('-')[3])]+\
+		                        [int(PartName[1])]+[Part_Name[i]]+[Description[i]]+\
+		                        [Quantity[i]]+[Mass[i]]+\
+		                        [LCG[i]]+[TCG[i]]+\
+		                        [VCG[i]]+[data.name.split('-')[1]]]
+		            
 	            ID+=1
 	    except:
 	    	pass

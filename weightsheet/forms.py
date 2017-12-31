@@ -3,7 +3,7 @@ from .models import ASV_Vessel, Group_System, Item, Bounding_Box
 
 class ASV_Vessel_Form(forms.ModelForm):
 #	ASV_Project_Number = forms.CharField(max_length=4)
-	Description = forms.CharField(widget=forms.Textarea,required=False)
+	Description = forms.CharField(widget=forms.Textarea,required=False,initial='This field is optional')
 	#Mass = forms.FloatField(required=False)
 	#LCG = forms.FloatField(required=False)
 	#TCG = forms.FloatField(required=False)
@@ -19,7 +19,7 @@ class Group_System_Form(forms.ModelForm):
 
 	class Meta:
 		model = Group_System
-		fields = ('ID_ASV', 'ID_GS', 'Mass', 'LCG', 'TCG', 'VCG')
+		fields = ('ID_ASV', 'ID_GS')
 
 class Item_Form(forms.ModelForm):
 

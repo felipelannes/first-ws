@@ -1,34 +1,35 @@
-{% load staticfiles %}
+{% extends "weightsheet/base.html" %}
 
 
-<html>
-    <head>
-        <title>ASV {{vessel.ASV_Project_Number}} Item List</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
-    </head>
-    <body>
-        <div class="page-header">
-            <h1> <a href="{% url "weightsheet:homepage" %}"> {{vessel.ASV_Project_Number}} Group System {{gs}}</a></h1>
-        </div>
+{% block Title_Html %} ASV {{vessel.ASV_Project_Number}} Item List {% endblock %}
+        
+{% block Title_Page %} {{vessel.ASV_Project_Number}} Group System {{gs}} {% endblock %}
 
-        {% for item in gs_choose %}
+{% block content %}
             <div class="vessel">
-                <h2><a>{{item.Part_Name}}</a></h2>
-                <p>ID Item: {{item.ID_Item}}<br>
-                ASV Item: {{item.ASV_Item}}<br>
-                Local Group System: {{item.Local_Group}}<br>
-                Global Group System: {{item.Global_Group}}<br>
-                Description: {{item.Description}}<br>
-                Quantity: {{item.Quantity|floatformat:3}}<br>
-                Mass: {{item.Mass|floatformat:3}} kilograms<br>
-                LCG: {{item.LCG|floatformat:3}} meters<br>
-                TCG: {{item.TCG|floatformat:3}} meters<br>
-                VCG: {{item.VCG|floatformat:3}} meters<br>
-                ASV Project: {{item.ID_ASV.ASV_Project_Number}}</p>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Part Name</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Mass (kg) </th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th></tr>
+                
+                    {% for item in gs_choose %}
+                        <tr>
+                        <td>{{item.ID_Item}}</td>
+                        <td>{{item.Part_Name}}</td>
+                        <td>{{item.Description}}</td>
+                        <td>{{item.Quantity|floatformat:3}}</td>
+                        <td>{{item.Mass|floatformat:3}}</td>
+                        <td>{{item.LCG|floatformat:3}}</td>
+                        <td>{{item.TCG|floatformat:3}}</td>
+                        <td>{{item.VCG|floatformat:3}}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
             </div>
-        {% endfor %}
-    </body>
-</html>
+{% endblock %}

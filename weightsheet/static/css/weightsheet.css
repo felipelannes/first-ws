@@ -23,7 +23,7 @@
 .top-menu, .top-menu:hover, .top-menu:visited {
     color: #ffffff;
     float: right;
-    font-size: 26pt;
+    font-size: 12pt;
     margin-right: 20px;
 }
 
@@ -53,6 +53,9 @@
     color: #000000;
 }
 
+.vessel h5, h5 a{
+    font-size: 8pt;
+}
 
 .group_system {
     margin-bottom: 10px;
@@ -61,4 +64,20 @@
 
 .group_system h2 a, .post h2 a:visited {
     color: #000000;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 95%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }

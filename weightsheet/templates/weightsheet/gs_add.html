@@ -1,18 +1,12 @@
+{% extends "weightsheet/base.html" %}
 {% load range %}
-{% load staticfiles %}
 
-<html>
-    <head>
-        <title>ASV {{vessel.ASV_Project_Number}} Vessel</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
-    </head>
 
-    <body>
-        <div  class="page-header"><h1 ><a href="{% url "weightsheet:homepage" %}"> {{vessel.ASV_Project_Number}} Group System Informations</a></h1></div>
+{% block Title_Html %} ASV {{vessel.ASV_Project_Number}} Vessel {% endblock %}
 
+{% block Title_Page %} {{vessel.ASV_Project_Number}} Group System Informations {% endblock %}
+
+{% block content %}
         <div style="margin-left:40px;"><h3>Upload a Group System File: </h3></div>
         <form action="{% url "weightsheet:upload"  ASV_Project_Number=vessel.ASV_Project_Number %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
         {% csrf_token %}
@@ -51,10 +45,10 @@
         </form>
 
         <div class="group_system">
-                <p>Bounding Box Mass: {{bounding_box_date.0|floatformat:3 }} kilograms<br>
-                    Bounding Box LCG: {{bounding_box_date.1|floatformat:3}} meters<br>
-                    Bounding Box TCG: {{bounding_box_date.2|floatformat:3}} meters<br>
-                    Bounding Box VCG: {{bounding_box_date.3|floatformat:3}} meters<br></p>
+                <p>Bounding Box Mass: {{bounding_box_data.0|floatformat:3 }} kilograms<br>
+                    Bounding Box LCG: {{bounding_box_data.1|floatformat:3}} meters<br>
+                    Bounding Box TCG: {{bounding_box_data.2|floatformat:3}} meters<br>
+                    Bounding Box VCG: {{bounding_box_data.3|floatformat:3}} meters<br></p>
         </div>
 
         </div>
@@ -70,6 +64,5 @@
             </div>
         {% endfor %}
         </div>
-    </body>
-    
-</html>
+{% endblock %}
+

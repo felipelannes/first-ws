@@ -1,17 +1,10 @@
-{% load staticfiles %}
+{% extends "weightsheet/base.html" %}
 
-<html>
-    <head>
-        <title> ASV Add Vessel</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
-    </head>
-    <body>
-        <div class="page-header">
-            <h1><a href="{% url "weightsheet:homepage" %}"> New ASV Project</a></h1>
-        </div>
+{% block Title_Html %} New ASV Project {% endblock %}
+
+{% block Title_Page %} New ASV Project {% endblock %}
+
+{% block content %}
         <form method="POST" class="post-form"  style="margin-left:40px;">{% csrf_token %}
             {% for field in form %}
                 <div class="row">
@@ -27,5 +20,4 @@
 
             <button type="submit"  class="btn btn-primary" >Create</button>
         </form>
-    </body>
-</html>
+{% endblock %}

@@ -10,3 +10,26 @@
 
         <button type="submit"  class="btn btn-primary" ><span  style="margin-right:10px;"></span>Calculate</button>
         </form>
+        
+
+
+
+<form method="get">
+            <p><label for="id_X_aft">X Aft:</label><input type="number" name="X_aft" id="id_X_aft" /> meters<br><br>
+                <label for="id_X_forward">X Forward:</label><input type="number" name="X_forward" id="id_X_forward" /> meters<br><br>
+                <label for="id_Y_starboard">Y Starboard:</label><input type="number" name="Y_starboard" id="id_Y_starboard" /> meters<br><br>
+                <label for="id_Y_portside">Y Portside:</label><input type="number" name="Y_portside" id="id_Y_portside" /> meters<br><br>
+                <label for="id_Z_bottom">Z Bottom:</label><input type="number" name="Z_bottom" id="id_Z_bottom" /> meters<br><br>
+                <label for="id_Z_up">Z Up:</label><input type="number" name="Z_up" id="id_Z_up" /> meters<br><br>
+            <button type="submit"  class="btn btn-primary" >Search</button>
+            </form>
+
+
+for item in Item.objects.filter(ID_ASV=vessel_iterable):
+                if float(request.GET.get('X_aft'))<=item.LCG<=float(request.GET.get('X_forward')) \
+                and float(request.GET.get('Y_starboard'))<=item.TCG<=float(request.GET.get('Y_portside')) \
+                and float(request.GET.get('Z_bottom'))<=item.VCG<=float(request.GET.get('Z_up')):
+                    item_choose+=[item]
+                    print('oi')
+                else:
+                    pass
