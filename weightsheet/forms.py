@@ -25,7 +25,7 @@ class Item_Form(forms.ModelForm):
 
 	class Meta:
 		model = Item
-		fields = ('ID_ASV', 'ID_GS', 'ID_Item', 'ASV_Item', 'Local_Group', 'Global_Group', 'Part_Name', 
+		fields = ('ID_ASV', 'ID_GS', 'ID_Item', 'ASV_Item', 'Global_Group', 'Part_Name', 
 			'Description', 'Quantity', 'Mass', 'LCG', 'TCG', 'VCG')
 
 class Bounding_Box_Form(forms.ModelForm):

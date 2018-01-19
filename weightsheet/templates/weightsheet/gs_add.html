@@ -7,6 +7,9 @@
 {% block Title_Page %} {{vessel.ASV_Project_Number}} Group System Informations {% endblock %}
 
 {% block content %}
+<div class="row">
+    <div class="column">
+
         <div style="margin-left:40px;"><h3>Upload a Group System File: </h3></div>
         <form action="{% url "weightsheet:upload"  ASV_Project_Number=vessel.ASV_Project_Number %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
         {% csrf_token %}
@@ -22,9 +25,38 @@
         </div>
         </form>
 
-        <div class="group_system">
-            <h3>Bounding Box: </h3>
+        <div class="vessel">
+            
+
+            <table>
+                <tr>
+                    <th>Group System</th>
+                    <th>Mass (kg)</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th>
+                </tr>
+                {% for gs in gs_list %}
+                    <tr>
+                    <td><a href="{% url "weightsheet:gs_items" ASV_Project_Number=vessel.ASV_Project_Number gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></td>
+                    <td>{{gs.Mass|floatformat:3 }}</td>
+                    <td>{{gs.LCG|floatformat:3}}</td>
+                    <td>{{gs.TCG|floatformat:3}}</td>
+                    <td>{{gs.VCG|floatformat:3}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+        
+       
+
+    <div class="column">
+         <div class="group_system">
+            <h3>Bounding Box: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <button type="submit"  class="btn btn-primary" >Calculate</button> </h3> 
             <p> <b>Reference: X + to forward, Y + to portside, Z + up </b></p>
+
         </div>
 
         <form method="POST" class="post-form" style="margin-left:40px;">{% csrf_token %}
@@ -33,36 +65,34 @@
                     <div class="col-md-3">
                         {{field.label_tag}} 
                     </div>
-                    <div class="col-md-3">
-                        {{field}} meters <br><br>
+                    <div class="col-md-5">
+                        {{field}} meters <br>
                     </div>
                         {{field.errors}}
             </div>
             {% endfor %}
 
-            <button type="submit"  class="btn btn-primary" >Calculate</button>
-                            
+            
         </form>
+    <div class="vessel">
+            <table>
+                <tr>
+                    <th>Mass (kg)</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th>
+                </tr>
+                <tr>
+                    <td>{{bounding_box_data.0|floatformat:3 }}</td>
+                    <td>{{bounding_box_data.1|floatformat:3}}</td>
+                    <td>{{bounding_box_data.2|floatformat:3}}</td>
+                    <td>{{bounding_box_data.3|floatformat:3}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+     
+</div>
 
-        <div class="group_system">
-                <p>Bounding Box Mass: {{bounding_box_data.0|floatformat:3 }} kilograms<br>
-                    Bounding Box LCG: {{bounding_box_data.1|floatformat:3}} meters<br>
-                    Bounding Box TCG: {{bounding_box_data.2|floatformat:3}} meters<br>
-                    Bounding Box VCG: {{bounding_box_data.3|floatformat:3}} meters<br></p>
-        </div>
-
-        </div>
-        {% for gs in gs_list %}
-            <div class="vessel">
-                <h2><a href="{% url "weightsheet:gs_items" ASV_Project_Number=vessel.ASV_Project_Number gs=gs.ID_GS %}">G{{gs.ID_GS}}</a></h2>
-                <div>
-                <p>Mass: {{gs.Mass|floatformat:3 }} kilograms <br>
-                    LCG: {{gs.LCG|floatformat:3}} meters <br>
-                    TCG: {{gs.TCG|floatformat:3}} meters <br>
-                    VCG: {{gs.VCG|floatformat:3}} meters <br></p>
-                </div>
-            </div>
-        {% endfor %}
-        </div>
 {% endblock %}
 

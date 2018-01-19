@@ -33,3 +33,76 @@ for item in Item.objects.filter(ID_ASV=vessel_iterable):
                     print('oi')
                 else:
                     pass
+
+{% extends "weightsheet/base.html" %}
+
+{% block Title_Html %} ASV Vessel List {% endblock %}
+        
+{% block Title_Page %} ASV Project List {% endblock %}
+
+{% block content %}
+        {% for vessel in vessel_list %}
+        <div class="container-fluid">
+            <div class="vessel">
+            <table>
+                <tr>
+                    <th>ASV Number Project</th>
+                    <th>Description</th>
+                    <th>Mass</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th></tr>
+                
+                    {% for vessel in vessel_list %}
+                        <tr>
+                        <td>{{item.ID_Item}}</td>
+                        <td>{{item.Part_Name}}</td>
+                        <td>{{item.Description}}</td>
+                        <td>{{item.Quantity|floatformat:3}}</td>
+                        <td>{{item.Mass|floatformat:3}}</td>
+                        <td>{{item.LCG|floatformat:3}}</td>
+                        <td>{{item.TCG|floatformat:3}}</td>
+                        <td>{{item.VCG|floatformat:3}}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+            </div>
+                
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h2><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">
+                                
+                            {{vessel.ASV_Project_Number}} - {{vessel.Name}} </a></h2>
+                            
+                            <h5>
+                                <b>Creation Date:</b> {{vessel.Creation_date}}
+
+                            {% ifequal vessel.Modification_date None %}
+                            {% else %}
+                                
+                                <b><br>Modification Date:</b> {{vessel.Modification_date}}
+                            
+                            {% endifequal %}
+                            </h5>
+                            <br>
+
+                            <p>Description: {{vessel.Description}} <br>
+                            Mass: {{vessel.Mass|floatformat:3 }} kilograms<br>
+                            LCG: {{vessel.LCG|floatformat:3 }} meters<br>
+                            TCG: {{vessel.TCG|floatformat:3 }} meters<br>
+                            VCG: {{vessel.VCG|floatformat:3 }} meters</p>
+                        </div>
+                    
+                        <div class="col-sm-4" >
+                            <a onclick="return confirm('Are you sure you want to delete this Project?');" class="btn btn-default" href="{% url "weightsheet:vessel_remove" ASV_Project_Number=vessel.ASV_Project_Number %}"><span class="glyphicon glyphicon-remove" ></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+{% endblock %}
+
+
+

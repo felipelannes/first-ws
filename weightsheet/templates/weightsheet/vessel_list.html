@@ -5,43 +5,38 @@
 {% block Title_Page %} ASV Project List {% endblock %}
 
 {% block content %}
-        {% for vessel in vessel_list %}
+        
         <div class="container-fluid">
             <div class="vessel">
-                
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <h2><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">
-                                
-                            {{vessel.ASV_Project_Number}} - {{vessel.Name}} </a></h2>
-                            
-                            <h5>
-                                <b>Creation Date:</b> {{vessel.Creation_date}}
-
-                            {% ifequal vessel.Modification_date None %}
-                            {% else %}
-                                
-                                <b><br>Modification Date:</b> {{vessel.Modification_date}}
-                            
-                            {% endifequal %}
-                            </h5>
-                            <br>
-
-                            <p>Description: {{vessel.Description}} <br>
-                            Mass: {{vessel.Mass|floatformat:3 }} kilograms<br>
-                            LCG: {{vessel.LCG|floatformat:3 }} meters<br>
-                            TCG: {{vessel.TCG|floatformat:3 }} meters<br>
-                            VCG: {{vessel.VCG|floatformat:3 }} meters</p>
-                        </div>
-                    
-                        <div class="col-sm-4" >
-                            <a onclick="return confirm('Are you sure you want to delete this Project?');" class="btn btn-default" href="{% url "weightsheet:vessel_remove" ASV_Project_Number=vessel.ASV_Project_Number %}"><span class="glyphicon glyphicon-remove" ></span></a>
-                        </div>
-                    </div>
-                </div>
+            <table>
+                <tr>
+                    <th>ASV Project Number</th>
+                    <th>Description</th>
+                    <th>Mass (kg)</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th>
+                    <th>Remove</th>
+                </tr>
+                    {% for vessel in vessel_list %}
+                        <tr>
+                        <td><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">{{vessel.ASV_Project_Number}}</a></td>
+                        {% ifequal vessel.Description "This field is optional" %}
+                        <td></td>
+                        {% else %}
+                        <td>{{vessel.Description}}</td>
+                        {% endifequal %}
+                        <td>{{vessel.Mass|floatformat:3}}</td>
+                        <td>{{vessel.LCG|floatformat:3}}</td>
+                        <td>{{vessel.TCG|floatformat:3}}</td>
+                        <td>{{vessel.VCG|floatformat:3}}</td>
+                        <td><a onclick="return confirm('Are you sure you want to delete this Project?');" class="btn btn-default" href="{% url "weightsheet:vessel_remove" ASV_Project_Number=vessel.ASV_Project_Number %}"><span class="glyphicon glyphicon-remove" ></span></a></td>
+                        </tr>
+                           
+                    {% endfor %}
+            </table>
             </div>
-
-        {% endfor %}
+        </div>
 
 {% endblock %}
 

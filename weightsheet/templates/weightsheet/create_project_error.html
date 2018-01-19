@@ -1,12 +1,12 @@
 {% extends "weightsheet/base.html" %}
 
-{% block Title_Html %} ASV {{ASV_Project_Number}} Create Project Error {% endblock %}
+{% block Title_Html %} ASV Create Project Error {% endblock %}
 
-{% block Title_Page %} ASV {{ASV_Project_Number}} Create Project Error {% endblock %}
+{% block Title_Page %} ASV Create Project Error {% endblock %}
 
 {% block content %}
         <div class="vessel">
-        		<h3> This ASV Project Number already exist. <br></h3> 
+        		<h3> This ASV Project Number or Project Name already exist. <br></h3> 
         	<h3><a href="{% url "weightsheet:vessel_add" %}">Try again </h3>
         </div>
 {% endblock %}

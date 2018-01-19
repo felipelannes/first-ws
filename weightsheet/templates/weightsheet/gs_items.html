@@ -23,11 +23,31 @@
                         <td>{{item.ID_Item}}</td>
                         <td>{{item.Part_Name}}</td>
                         <td>{{item.Description}}</td>
+                        {% ifequal item.Quantity 999999 %}
+                        <td style="color:red;"> MISSING </td>
+                        {% else %}
                         <td>{{item.Quantity|floatformat:3}}</td>
+                        {% endifequal %}
+                        {% ifequal item.Mass 999999 %}
+                        <td style="color:red;"> MISSING </td>
+                        {% else %}
                         <td>{{item.Mass|floatformat:3}}</td>
+                        {% endifequal %}
+                        {% ifequal item.LCG 999999 %}
+                        <td style="color:red;"> MISSING </td>
+                        {% else %}
                         <td>{{item.LCG|floatformat:3}}</td>
+                        {% endifequal %}
+                        {% ifequal item.TCG 999999 %}
+                        <td style="color:red;"> MISSING </td>
+                        {% else %}
                         <td>{{item.TCG|floatformat:3}}</td>
+                        {% endifequal %}
+                        {% ifequal item.VCG 999999 %}
+                        <td style="color:red;"> MISSING </td>
+                        {% else %}
                         <td>{{item.VCG|floatformat:3}}</td>
+                        {% endifequal %}
                         </tr>
                     {% endfor %}
             </table>

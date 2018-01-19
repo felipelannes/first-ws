@@ -8,8 +8,8 @@ class ASV_Vessel(models.Model):
     #Create_by = models.ForeignKey('auth.User', default=request.user)
 
     #Attributes - Mandatory
-    ASV_Project_Number = models.CharField(max_length=4)
-    Name = models.CharField(max_length=200)
+    ASV_Project_Number = models.CharField(max_length=4,primary_key=True)
+    Name = models.CharField(max_length=32,unique=True)
     Description = models.TextField(blank=True)
     Mass = models.FloatField(null=True)
     LCG = models.FloatField(null=True)
@@ -33,9 +33,15 @@ class ASV_Vessel(models.Model):
     #    self.Modified_by = user.get_username()
     #    self.save()
 
+    def clean(self):
+        self.ASV_Project_Number = self.ASV_Project_Number.capitalize()
+
     #Meta and String
     def __str__(self):
         return self.ASV_Project_Number
+    
+    #class Meta:
+    #    unique_together=('ASV_Project_Number',)
 
 class Group_System(models.Model):
     
@@ -76,9 +82,7 @@ class Item(models.Model):
     ID_GS= models.ForeignKey(Group_System)
 
     #Attributes - Mandatory
-    Local_Group = models.IntegerField()
     Part_Name = models.CharField(max_length=32)
-    Description = models.TextField(blank=True)
     Quantity = models.FloatField()
     Mass = models.FloatField()
     LCG = models.FloatField()
@@ -87,8 +91,9 @@ class Item(models.Model):
 
 
     #Attributes - Optional
-    ID_Item = models.CharField(max_length=4)
-    ASV_Item = models.CharField(max_length=3)
+    Description = models.TextField(blank=True)
+    ID_Item = models.IntegerField()
+    ASV_Item = models.BooleanField()
     Global_Group = models.IntegerField()
     #Object Manager
     #Custom Propreties

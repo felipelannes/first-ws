@@ -17,19 +17,23 @@ def vessel_add(request):
     if request.method == 'POST':
         form = ASV_Vessel_Form(request.POST)
         if form.is_valid():
-            if ASV_Vessel.objects.filter(ASV_Project_Number=request.POST.get('ASV_Project_Number')).exists():
-                return render(request, 
+            # if ASV_Vessel.objects.filter(ASV_Project_Number=(request.POST.get('ASV_Project_Number')).upper()).exists():
+            #     return render(request, 
+            #                 'weightsheet/create_project_error.html', 
+            #                 {'ASV_Project_Number': request.POST.get('ASV_Project_Number')} )
+            # else:
+
+            vessel = form.save()
+            html = "/vessel/%s"%((request.POST.get('ASV_Project_Number')).upper())
+            return redirect(html)
+        else:
+            return render(request, 
                             'weightsheet/create_project_error.html', 
                             {'ASV_Project_Number': request.POST.get('ASV_Project_Number')} )
-            else:
-                vessel = form.save()
-                html = "/vessel/%s"%(request.POST.get('ASV_Project_Number'))
-                return redirect(html)
     else:
         form = ASV_Vessel_Form()
     return render(request, 'weightsheet/vessel_add.html', {'form': form} )
 
-@login_required
 def vessel_remove(request,ASV_Project_Number):
     vessel = get_object_or_404(ASV_Vessel,ASV_Project_Number=ASV_Project_Number)
     vessel.delete()
@@ -37,8 +41,10 @@ def vessel_remove(request,ASV_Project_Number):
 
 def vessel_list(request):
     vessel_list = ASV_Vessel.objects.all()
+    print (vessel_list)
     for vessel in vessel_list:
         items_list = Group_System.objects.filter(ID_ASV=vessel)
+        print (items_list)
         vessel.Mass = calculate_total_mass(items_list)
         vessel.LCG = calculate_LCG_CoG(items_list)
         vessel.TCG = calculate_TCG_CoG(items_list)
@@ -54,6 +60,10 @@ def gs_add(request,ASV_Project_Number):
         data_dict={}
         data_dict["ID_ASV"] = vessel_iterable
         data_dict["ID_GS"] = gs_id
+        data_dict["Mass"]= 0
+        data_dict["LCG"]= 0
+        data_dict["TCG"]= 0
+        data_dict["VCG"]= 0
         form = Group_System_Form(data_dict)
         if form.is_valid():
             if Group_System.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_id).exists():
@@ -101,7 +111,8 @@ def gs_add(request,ASV_Project_Number):
 
 def gs_items(request,ASV_Project_Number,gs):
     vessel = get_object_or_404(ASV_Vessel, ASV_Project_Number=ASV_Project_Number)
-    gs_choose = Item.objects.filter(ID_ASV_id=vessel, Local_Group=gs)
+    gs_iterable = Group_System.objects.filter(ID_GS=gs , ID_ASV_id=vessel)
+    gs_choose = Item.objects.filter(ID_ASV_id=vessel, ID_GS_id=gs_iterable)
     
     return render(request, 'weightsheet/gs_items.html', 
         {'gs_choose': gs_choose, 'gs': gs, 'vessel': vessel} )
@@ -133,23 +144,22 @@ def upload(request,ASV_Project_Number):
 
 
     #loop over the lines and save them in db. If error , store as string and then display
-    for fields in lines: 
-        vessel_iterable = ASV_Vessel.objects.filter(ASV_Project_Number=fields[11])
-        gs_iterable = Group_System.objects.filter(ID_GS=fields[2] , ID_ASV_id=vessel_iterable)
+    vessel_iterable = ASV_Vessel.objects.filter(ASV_Project_Number=lines[0][11])
+    gs_iterable = Group_System.objects.filter(ID_GS=lines[0][2] , ID_ASV_id=vessel_iterable)
+    Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable).delete()
 
+    #print (lines)
+
+    for fields in lines: 
+        
         data_dict = {}
         data_dict["ID_ASV"] = vessel_iterable
         data_dict["ID_GS"] = gs_iterable
         data_dict["ID_Item"] = fields[0]
         data_dict["ASV_Item"] = fields[1]
-        data_dict["Local_Group"] = fields[2]
+#        data_dict["Local_Group"] = fields[2]
         data_dict["Global_Group"] = fields[3]
         data_dict["Part_Name"] = fields[4]
-        try:
-            if isnan(fields[5]):
-                fields[5]=''
-        except:
-            pass
         data_dict["Description"] = fields[5]
         data_dict["Quantity"] = fields[6]
         data_dict["Mass"] = fields[7]
@@ -157,22 +167,27 @@ def upload(request,ASV_Project_Number):
         data_dict["TCG"] = fields[9]
         data_dict["VCG"] = fields[10]
 
+
         form = Item_Form(data_dict)
         if form.is_valid():
-            if Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2]).exists():
-                    item = Item.objects.get(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2])
-                    item.Description = fields[5]
-                    item.Quantity = fields[6]
-                    item.Mass = fields[7]
-                    item.LCG = fields[8]    
-                    item.TCG = fields[9]
-                    item.VCG = fields[10]
-                    item.save()
-                    get_object_or_404(ASV_Vessel,ASV_Project_Number=fields[11]).modification_date()
-            else:
-                    form.save()
+            # if Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2]).exists():
+            #         item = Item.objects.get(ID_ASV=vessel_iterable, ID_GS=gs_iterable, ID_Item=fields[0], Local_Group=fields[2])
+            #         item.Description = fields[5]
+            #         item.Quantity = fields[6]
+            #         item.Mass = fields[7]
+            #         item.LCG = fields[8]    
+            #         item.TCG = fields[9]
+            #         item.VCG = fields[10]
+            #         item.save()
+            #         get_object_or_404(ASV_Vessel,ASV_Project_Number=fields[11]).modification_date()
+            # else:
+            #         form.save()
+            get_object_or_404(ASV_Vessel,ASV_Project_Number=fields[11]).modification_date()
+            form.save()
         else:
             pass
+    print (Item.objects.filter(ID_ASV=vessel_iterable, ID_GS=gs_iterable))
     gs_add(request,ASV_Project_Number)
     vessel_list(request)
-    return redirect('/vessel/list')
+    html='/vessel/'+str(ASV_Project_Number)
+    return redirect(html)
