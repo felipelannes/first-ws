@@ -190,7 +190,7 @@ def upload(request,ASV_Project_Number,tag):
     if xls_file.multiple_chunks():
     	pass
 
-    Project_Number = xls_file.name.split("'bubble_data':bubble_data,-")[1]
+    Project_Number = xls_file.name.split("-")[1]
 
 
     if  ASV_Project_Number!=Project_Number:
