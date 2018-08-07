@@ -1,0 +1,9 @@
+{
+  "id":"weightsheet",
+  "name":"Weightsheet",
+  "settings":[{"id":"cover","name":"Cover","unique":"false","content":["Revision"]},
+              {"id":"first_page","name":"First Page","unique":"false","content":["General Notes","Assumptions","Coordinate System"]},
+              {"id":"summary","name":"Summary","unique":"false","content":["Group System Summary","Group System Graph","Center of Gravity Graph"]},
+              {"id":"content","name":"Content","content":[{"id":"items_source","name":"Items Source","unique":"true","content":["BOM", "Template"]},
+{"id":"weight_control_evolution","name":"Weight Control Evolution","unique":"false","content":["History","Weight","LCG","VCG"]}]}]
+}

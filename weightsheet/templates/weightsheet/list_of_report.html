@@ -1,0 +1,35 @@
+{% extends "weightsheet/extends/base.html" %}
+{% load range %}
+
+
+{% block Title_Html %} ASV {{vessel.ASV_Project_Number}} Vessel {% endblock %}
+
+{% block Title_Page %} {{vessel.ASV_Project_Number}} Report {% endblock %}
+
+{% block content %}
+
+<script src="/static/js/Show_Content.js"></script>
+
+{% for report_area in list_of_report %}
+		<div class="choose" >
+			 <button onclick="Show_Content('{{report_area.name}}')" ><span class="glyphicon glyphicon-plus" ></span></button>
+			  {{report_area.name}}
+			 <p></p>
+			 <div id="{{report_area.name}}"  style="display:none">
+			 	<table>
+			 	{% for analyse in report_area.content %}
+			 		<tr>
+			 			<td><a href="{% url "weightsheet:report_settings" ASV_Project_Number=vessel.ASV_Project_Number report_id=analyse.id %}">{{analyse.name}}</a></td>
+						<td>{{analyse.description}}</td>
+			 		</tr>
+			 	{% endfor %}
+			 	</table>
+			 	<br>
+			</div>
+		</div>
+{%  endfor %}
+
+
+
+
+{% endblock %}

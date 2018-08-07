@@ -1,14 +1,14 @@
-{% extends "weightsheet/base.html" %}
+{% extends "weightsheet/extends/base.html" %}
 
 {% block Title_Html %} ASV {{ASV_Project_Number}} Upload Error {% endblock %}
 
 {% block Title_Page %} ASV {{ASV_Project_Number}} Upload Error {% endblock %}
 
 {% block content %}
-        <div class="vessel">
+        <div class="standart_margin">
         		{% if flag_error %}
         		<h3> Unexpected upload file name. <br><br> 
-        		It must be like: ASV-{{ASV_Project_Number}}-S-110-i0011 BOM.xls <br></h3>
+        		It must be like: ASV-{{ASV_Project_Number}}-S-110-BOM.xls <br></h3>
         		{% else %}
         		<h3> Unexpected Excel file line. </h3>
         		{% endif %}

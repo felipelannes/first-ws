@@ -2,7 +2,8 @@ from django import forms
 from .models import ASV_Vessel, Group_System, Item, Bounding_Box
 
 class ASV_Vessel_Form(forms.ModelForm):
-#	ASV_Project_Number = forms.CharField(max_length=4)
+
+	#ASV_Project_Number = forms.CharField(max_length=4)
 	Description = forms.CharField(widget=forms.Textarea,required=False,initial='This field is optional')
 	#Mass = forms.FloatField(required=False)
 	#LCG = forms.FloatField(required=False)
@@ -28,6 +29,7 @@ class Item_Form(forms.ModelForm):
 		fields = ('ID_ASV', 'ID_GS', 'ID_Item', 'ASV_Item', 'Global_Group', 'Part_Name', 
 			'Description', 'Quantity', 'Mass', 'LCG', 'TCG', 'VCG')
 
+#abstract class
 class Bounding_Box_Form(forms.ModelForm):
 
 	X_aft = forms.FloatField()

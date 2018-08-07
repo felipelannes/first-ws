@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<!DOCTYPE html> 
+
+<div style="margin-left:40px;"><h3>Upload a Weightsheet File by Template: </h3>
+            <form action="{% url "weightsheet:upload"  ASV_Project_Number=vessel.ASV_Project_Number tag='template' %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
+            {% csrf_token %}
+            <div class="form-group" style="margin-left:40px;">
+                <div class="col-md-8">
+                    <input type="file" name="xls_file" id="xls_file" required="True" class="form-control">
+                </div>                    
+            </div>
+            <div class="form-group">                    
+                <div class="col-md-12" style="margin-left:40px;">
+                     <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" onclick="window.alert('Excel file is loading. It takes long two minutes.')"></span>Upload </button>
+                </div> 
+            </div>
+            </form>
+</div>

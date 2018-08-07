@@ -1,0 +1,62 @@
+{% extends "weightsheet/extends/base.html" %}
+
+{% block Title_Html %} ASV {{vessel.ASV_Project_Number}} Vessel {% endblock %}
+
+{% block Title_Page %} {{vessel.ASV_Project_Number}} {{report_name}} Settings {% endblock %}
+
+{% block content %}
+
+<script src="/static/js/Show_Content.js"></script>
+<script src="/static/js/Toggle_Checkbox.js"></script>
+
+
+
+<form action="{% url "weightsheet:report_content" ASV_Project_Number=vessel.ASV_Project_Number report_id=report_id %} method="post">
+	<div class="standart_margin" id="{{report_id}}_report_settings">
+		<p>Select Report Settings: </p>
+		
+		{% for settings in report.settings %}
+			<a onclick="Show_Content('{{settings.name}}')" ><span class="glyphicon glyphicon-plus" ></span></a>	
+			{{settings.name}}
+			<div class="standart_margin" id="{{settings.name}}"  style="display:none ">
+				{% for attribute in settings.content %}
+					{% if settings.name == "Content" %}
+						<a onclick="Show_Content('{{attribute.name}}')" ><span class="glyphicon glyphicon-plus" ></span></a>
+						{{attribute.name}}
+						<div class="standart_margin" id="{{attribute.name}}"  style="display:none ">
+						
+						{% for att in attribute.content %}
+							
+							<input type="checkbox" name="{{att}}_checkbox" onclick="Toggle_Checkbox(this,{{attribute.content}},{{attribute.unique}})" />
+					 			{{att}}
+					 			<br>
+					 	{% endfor %}
+					 	
+					 	</div><br>
+
+					{% else %}
+						
+						<input type="checkbox" name="{{attribute}}_checkbox" onclick="Toggle_Checkbox(this,{{settings.content}},{{settings.unique}})" />
+					 	{{attribute}}
+					 	<br>
+				 	{% endif %}
+			 	
+			 	{% endfor %}
+			 	
+			</div><br>
+
+		{% endfor %}
+		<br>
+
+	    <input type="submit" value="Next"> 
+	</div>
+</form>
+
+
+		
+
+
+
+
+
+{% endblock %}

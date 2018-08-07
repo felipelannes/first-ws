@@ -1,9 +1,11 @@
 from .models import ASV_Vessel, Group_System, Item
 from .forms import ASV_Vessel_Form, Group_System_Form, Item_Form
+import numpy as np
 import pandas as pd
 from pandas import ExcelWriter
 from pandas import ExcelFile
 from math import isnan
+
 
 def clean_items_list(items_list):
 	out=[]
@@ -51,50 +53,20 @@ def calculate_VCG_CoG(items_list):
 	except:
 		return 0
 
-def get_data(data):
-    df = pd.read_excel(data)
-    Part_Name=[i for i in df['Part Name']]
-    Description=['' if type(i)==float else i for i in df['Description']]
-    Quantity=[999999 if isnan(i) else i for i in df['Qty']]
-    Mass=[999999 if isnan(i) else i for i in df['Weight']]
-    LCG=[999999 if isnan(i) else i for i in df['Xcg']]
-    TCG=[999999 if isnan(i) else i for i in df['Ycg']]
-    VCG=[999999 if isnan(i) else i for i in df['Zcg']]
-    ID=1
-    line=[]
-    for i in range(len(Part_Name)):
-	    try:
-	        if Part_Name[i][:6]=='Mirror':
-	            pass
-	        elif 'REF ' in Part_Name[i]:
-	            pass
-	        else:
-	        	PartName = Part_Name[i].split('-')
 
-	        	# if isnan(Quantity[i]):
-	         #    		Quantity[i]=0
-		        # if isnan(Mass[i]):
-		        # 	Mass[i]=0
-		        # if isnan(LCG[i]):
-		        # 	LCG[i]=0
-		        # if isnan(TCG[i]):
-		        # 	TCG[i]
-		        # if isnan(VCG[i]):
-		        # 	VCG[I]
-		       	if PartName[0]=='ASV':
-	            		line += [[ID]+[True]+[int(data.name.split('-')[3])]+\
-		                        [int(PartName[3])]+[Part_Name[i]]+[Description[i]]+\
-		                        [Quantity[i]]+[Mass[i]]+\
-		                        [LCG[i]]+[TCG[i]]+\
-		                        [VCG[i]]+[data.name.split('-')[1]]]
-		        else:
-	            		line += [[ID]+[False]+[int(data.name.split('-')[3])]+\
-		                        [int(PartName[1])]+[Part_Name[i]]+[Description[i]]+\
-		                        [Quantity[i]]+[Mass[i]]+\
-		                        [LCG[i]]+[TCG[i]]+\
-		                        [VCG[i]]+[data.name.split('-')[1]]]
-		        ID+=1
+def get_data_by_template(data):
+	xl = pd.ExcelFile(data)
+	group = {}
+	for sheet in xl.sheet_names[5:13]:
+		group[sheet.split("-")[0][1]+"00"] = xl.parse(sheet,usecols=[1,2,3,4,5,6,7],skiprows=[1,2,3,4,5,6,7,8,9,10,11,12],na_values='NaN')
+	print (group)
+	return group
 
-	    except:
-	    	pass
-    return line
+
+def get_data_by_BOM(data):
+	xl = pd.ExcelFile(data)
+	group = {}
+	for sheet in xl.sheet_names:
+		if sheet.split("-")[0][1]=="h": pass
+		else: group[sheet.split("-")[0][1]+"00"] = xl.parse(sheet)
+	return group

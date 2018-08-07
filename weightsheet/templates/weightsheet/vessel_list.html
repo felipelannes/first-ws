@@ -1,4 +1,4 @@
-{% extends "weightsheet/base.html" %}
+{% extends "weightsheet/extends/base.html" %}
 
 {% block Title_Html %} ASV Vessel List {% endblock %}
         
@@ -7,7 +7,7 @@
 {% block content %}
         
         <div class="container-fluid">
-            <div class="vessel">
+            <div class="standart_margin">
             <table>
                 <tr>
                     <th>ASV Project Number</th>
@@ -20,7 +20,7 @@
                 </tr>
                     {% for vessel in vessel_list %}
                         <tr>
-                        <td><a href="{% url "weightsheet:gs_add" ASV_Project_Number=vessel.ASV_Project_Number %}">{{vessel.ASV_Project_Number}}</a></td>
+                        <td><a href="{% url "weightsheet:vessel" ASV_Project_Number=vessel.ASV_Project_Number %}">{{vessel.ASV_Project_Number}}</a></td>
                         {% ifequal vessel.Description "This field is optional" %}
                         <td></td>
                         {% else %}

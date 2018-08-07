@@ -1,0 +1,211 @@
+{% load staticfiles %}
+
+<!DOCTYPE html> 
+
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/weightsheet.css' %}">
+        <title> ASV {{vessel.ASV_Project_Number}} Vessel </title>
+    </head>
+    <body onload="Create_Line_Chart('bar','Weight_Chart','Weight Evolution',
+    ['G1','G1','G1','G1','G1'],[{{gs_list.0.Mass}},{{gs_list.1.Mass}},{{gs_list.2.Mass}},{{gs_list.3.Mass}},{{gs_list.4.Mass}}]);Create_Line_Chart('line','LCG_Chart','LCG Evolution',
+    ['G1','G1','G1','G1','G1'],[{{gs_list.0.Mass}},{{gs_list.1.Mass}},{{gs_list.2.Mass}},{{gs_list.3.Mass}},{{gs_list.4.Mass}}]);">
+        <div class="page-header">
+            <!--{% if user.is_authenticated %}
+                <p class='top-menu'>Hello {{ user.username }} <small>(<a href="{% url 'logout' %}" style="color: #fff;">Logout</a>)</small></p>
+            {% else %}
+                <a class='top-menu' href="{% url 'login' %}"><span class="glyphicon glyphicon-lock"> (Login) </span></a>
+            {% endif %}-->
+            <h1><a href="{% url "weightsheet:homepage" %}"> {{vessel.ASV_Project_Number}} {{report_name}} Report </a></h1>
+        </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/static/js/Create_Chart.js"></script>
+<script src="/static/js/Create_Bubble_Chart.js"></script>
+<script src="/static/js/Show_Content.js"></script>
+<script src="/static/js/Display_Settings.js"></script>
+<script src="/static/js/Show_Table_by_Select.js"></script>
+<script src="/static/js/Update_Mass_Property.js"></script>
+
+
+<div class="w3-bar w3-left" style="padding-left: 25px; width:100%;overflow:hidden;height:44px;font-size:30px;text-align: center;">      
+      <a class="w3-bar-item w3-button" title="Cover" onclick="Display_Settings('Cover_Report')">COVER      |   </a>
+      <a class="w3-bar-item w3-button" title="First Page" onclick="Display_Settings('First_Page_Report')">FIRST PAGE      |   </a>
+      <a class="w3-bar-item w3-button" title="Summary" onclick="Display_Settings('Summary_Report')">SUMMARY      |   </a>
+      <a class="w3-bar-item w3-button" title="Content" onclick="Display_Settings('Content_Report')">CONTENT </a><br><br><br>
+
+</div>  
+
+
+<div id="Cover_Report" style="display: none;">
+    
+
+</div>
+
+<div id="First_Page_Report" style="display: none;">
+    
+
+</div>
+
+<div id="Summary_Report" style="display: none;">
+    
+
+</div>
+
+<div id="Content_Report" style="display: none;">
+    <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" class="active"></li>
+              <li data-target="#myCarousel" ></li>
+              <li data-target="#myCarousel" ></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" >
+                  <div class="item active">
+                    <div class="standart_margin" >
+                        <table id="summary" style="text-align: bottom;">
+                            <tr style="background-color: #808080;">
+                                <th>Group System</th>
+                                <th>Mass (kg)</th>
+                                <th>LCG (m)</th>
+                                <th>TCG (m)</th>
+                                <th>VCG (m)</th>
+                            </tr>
+                            {% for gs in gs_list %}
+                                <tr>
+                                <td>{{gs.ID_GS}}</td>
+                                <td>{{gs.Mass|floatformat:3 }}</td>
+                                <td>{{gs.LCG|floatformat:3}}</td>
+                                <td>{{gs.TCG|floatformat:3}}</td>
+                                <td>{{gs.VCG|floatformat:3}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                  </div>
+
+                  <div class="item">
+                    <canvas id="Weight_Chart" width="800" height="200" ></canvas>
+                  </div>
+                
+                  <div class="item" style=>
+                    <canvas id="LCG_Chart" width="800" height="200" ></canvas>
+                  </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <div style="text-align: center">
+                <a href="#myCarousel" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </a>
+                <a href="#myCarousel" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="standart_margin">>
+    <canvas id="Bubble_Chart" width="800" height="400" ></canvas>
+    <script> Create_Bubble_Chart('Bubble_Chart','{{bubble_dic | safe}}','100') </script>
+    </div>
+
+    
+
+    <div class="standart_margin">
+        <div class=column>
+            <h3>Upload a Weightsheet File by {{tag}} </h3>
+            <form action="{% url "weightsheet:upload"  ASV_Project_Number=vessel.ASV_Project_Number tag=tag %}"  method="POST" enctype="multipart/form-data" class="form-inline"> 
+                {% csrf_token %}
+                <div class="form-group" style="margin-left:40px;">
+                    <div class="col-md-8">
+                        <input type="file" name="xls_file" id="xls_file" required="True" class="form-control">
+                    </div>                    
+                </div>
+                <div class="form-group">                    
+                    <div class="col-md-12" style="margin-left:40px;">
+                         <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" onclick="window.alert('Excel file is loading. It takes long two minutes.')"></span>Upload </button>
+                    </div> 
+                </div>
+            </form>
+        </div>
+        <div class="column_2">    
+            <h3>Choose a Group System to display </h3>
+            <select id="myselect" style="width:350px;height:30px;" onchange="Show_Table_by_Select(this.value);">
+                <option value="">Choose an option:</option>
+                <option value=100>Structure</option>
+                <option value=200>Propulsion</option>
+                <option value=300>Electrical</option>
+                <option value=400>Control</option>
+                <option value=500>Aux Systems</option>
+                <option value=600>Outfit</option>
+                <option value=700>Fixed Payload</option>
+                <option value=800>Variable Payload</option>
+            </select><br>
+        </div>
+        <br><br>
+    </div>
+    <div class="standart_margin">
+        {% for gs in gs_list %}
+            <div class ="show_items_group" id={{gs}} style="display:none">
+                <table>
+                    <tr style="background-color: #808080;">
+                        <th >ID</th><th>Part Name</th><th>Description</th><th>Quantity</th><th>Mass (kg) </th><th>LCG (m)</th> <th>TCG (m)</th>
+                        <th>VCG (m)</th>
+                    </tr>   
+                        {% for group in items_gs %}
+                            {%  for item in group %}
+                                {% if item.ID_GS == gs %} 
+                            	<tr style="background-color: #dddddd;"> 
+                            		<td></td>
+                            		<td></td>
+                            		<td></td>
+                            		<td></td>
+                            		<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name="weight_checkbox" 
+                                        onclick="Update_Mass(this,{{item.ID_GS}},{{item.Mass}},{{item.Mass}})" id={{item.ID_Item}} /></td>
+                            		<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name="lcg_checkbox" onclick="" /></td>
+                            		<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name="tcg_checkbox" onclick="" /></td>
+                            		<td style="text-align: center; vertical-align: middle;"><input type="checkbox" name="vcg_checkbox" onclick="" /></td>
+                            	</tr> 
+
+                                <tr>
+                                    <td>{{item.ID_GS}}</td>
+                                    <td>{{item.Part_Name}}</td>
+                                    <td>{{item.Description}}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{item.Quantity|floatformat:3}}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{item.Mass|floatformat:3}}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{item.LCG|floatformat:3}}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{item.TCG|floatformat:3}}</td>
+                                    <td style="text-align: center; vertical-align: middle;">{{item.VCG|floatformat:3}}</td>
+                                </tr>
+
+                                <tr>  
+                                	<td></td>
+                            		<td></td>
+                            		<td>{{item.Description}}</td>
+                            		<td>{{gs.Mass}}</td>
+                            		<td>CheckBox</td>
+                            		<td>CheckBox</td>
+                            		<td>CheckBox</td>
+                            		<td>CheckBox</td> 
+                                </tr> 
+                                {%  endif %}
+                            {% endfor %}
+                        {% endfor %}
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

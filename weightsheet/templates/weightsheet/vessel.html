@@ -1,0 +1,85 @@
+    {% extends "weightsheet/extends/base.html" %}
+{% load range %}
+
+
+{% block Title_Html %} ASV {{vessel.ASV_Project_Number}} Vessel {% endblock %}
+
+{% block Title_Page %} {{vessel.ASV_Project_Number}} Group System Informations {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="column">
+        <div class="standart_margin">
+            <table>
+                <tr>
+                    <th>Group System</th>
+                    <th>Mass (kg)</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th>
+                </tr>
+                {% for gs in gs_list %}
+                    <tr>
+                    <td>G{{gs.ID_GS}}</td>
+                    <td>{{gs.Mass|floatformat:3 }}</td>
+                    <td>{{gs.LCG|floatformat:3}}</td>
+                    <td>{{gs.TCG|floatformat:3}}</td>
+                    <td>{{gs.VCG|floatformat:3}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        <div class="choose" >
+            <h2><a href="{% url "weightsheet:list_of_report" ASV_Project_Number=vessel.ASV_Project_Number %}">Report</a></h2>
+        </div>
+
+        </div>
+    </div>
+        
+       
+
+    <div class="column">
+         <div class="group_system">
+            <h3>Bounding Box: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <button type="submit"  class="btn btn-primary" >Calculate</button> </h3> 
+            <p> <b>Reference: X + to forward, Y + to portside, Z + up </b></p>
+
+        </div>
+
+        <form method="POST" class="post-form" style="margin-left:40px;">{% csrf_token %}
+            {% for field in form %}
+            <div class="row">
+                    <div class="col-md-3">
+                        {{field.label_tag}} 
+                    </div>
+                    <div class="col-md-5">
+                        {{field}} meters <br>
+                    </div>
+                        {{field.errors}}
+            </div>
+            {% endfor %}
+
+            
+        </form>
+    <div class="standart_margin">
+            <table>
+                <tr>
+                    <th>Mass (kg)</th>
+                    <th>LCG (m)</th>
+                    <th>TCG (m)</th>
+                    <th>VCG (m)</th>
+                </tr>
+                <tr>
+                    <td>{{bounding_box_data.0|floatformat:3 }}</td>
+                    <td>{{bounding_box_data.1|floatformat:3}}</td>
+                    <td>{{bounding_box_data.2|floatformat:3}}</td>
+                    <td>{{bounding_box_data.3|floatformat:3}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+     
+</div>
+
+{% endblock %}
+

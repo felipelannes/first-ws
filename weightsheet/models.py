@@ -105,6 +105,8 @@ class Item(models.Model):
     def __str__(self):
         return self.Part_Name
 
+
+#abstract class
 class Bounding_Box(models.Model):
 
     #Attributes - Mandatory    
@@ -120,3 +122,25 @@ class Bounding_Box(models.Model):
     #Custom Propreties
     #Methods
     #Meta and String
+
+class Weight_Control_Evolution(models.Model):
+
+    #Relations
+    ID_ASV= models.ForeignKey(ASV_Vessel)
+
+    #Attributes - Mandatory  
+    Date = models.DateTimeField(default=timezone.now)
+    Mass = models.FloatField(null=True)
+    LCG = models.FloatField(null=True)
+    TCG = models.FloatField(null=True)
+    VCG = models.FloatField(null=True)
+    Items = models.IntegerField(null=True)
+
+    #Attributes - Optional
+    #Object Manager
+    #Custom Propreties
+    #Methods
+
+    #Meta and String
+    def __str__(self):
+        return "{:s}: -> mass:{:f}, LCG:{:f}, TCG:{:f}, VCG:{:f}".format(self.ID_ASV,self.Mass,self.LCG,self.TCG,self.VCG)

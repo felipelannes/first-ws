@@ -1,0 +1,12 @@
+[{
+  "id":"weight_control",
+  "name":"Weight Control",
+  "content":[{"id":"weightsheet","name":"Weightsheet","description":"Weightsheet description"},
+  			 {"id":"load_condition","name":"Load Condition","description":"Load Condition description"},
+  			 {"id":"stability","name":"Stability","description":"Stability description"}]
+},
+{
+  "id":"structure",
+  "name":"Structure",
+  "content":[{"id":"FEM","name":"FEM","description":"Finite Element Method descriptions"}]
+}]

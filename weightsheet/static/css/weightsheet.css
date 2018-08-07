@@ -44,16 +44,16 @@
 
 }
 
-.vessel {
+.standart_margin {
     margin-bottom: 10px;
     margin-left: 40px;
 }
 
-.vessel h2 a, .post h2 a:visited {
+.standart_margin h2 a, .post h2 a:visited {
     color: #000000;
 }
 
-.vessel h5, h5 a{
+.standart_margin h5, h5 a{
     font-size: 8pt;
 }
 
@@ -72,6 +72,12 @@
     
 }
 
+.column_2 {
+    float: left;
+    width: 50%;
+    
+}
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -81,9 +87,13 @@ table {
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+   
 }
 
-tr:nth-child(even) {
+
+
+/**tr:nth-child(even) {
     background-color: #dddddd;
-}
+}**/

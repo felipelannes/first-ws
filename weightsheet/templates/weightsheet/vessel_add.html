@@ -1,4 +1,4 @@
-{% extends "weightsheet/base.html" %}
+{% extends "weightsheet/extends/base.html" %}
 
 {% block Title_Html %} New ASV Project {% endblock %}
 
@@ -7,12 +7,12 @@
 {% block content %}
         <form method="POST" class="post-form"  style="margin-left:40px;">{% csrf_token %}
             {% for field in form %}
-                <div class="row">
-                    <div class="col">
+                <div>
+                    <div>
                         <div style="margin-left:-20px;"> {{field.errors}}</div>
                         {{field.label_tag}}
                     </div>
-                    <div class="col">
+                    <div>
                         {{field}}  <br><br>
                     </div>
                 </div>
